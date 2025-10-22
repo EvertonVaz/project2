@@ -1,0 +1,38 @@
+#
+# Docker Compose para rodar o Ollama localmente
+# Execute usando `docker-compose up --build -d`
+# Você pode tentar `curl http://localhost:11434` para ver se está rodando
+# Refira-se à documentação do ollama e sdk python (https://github.com/ollama)
+# para mais detalhes
+#
+
+services:
+
+  ollama-init:
+    image: ollama/ollama
+    volumes:
+      - ollama:/root/.ollama
+    entrypoint: ["/bin/bash", "-c"]
+    command: >
+      "ollama serve &
+       sleep 5 &&
+       ollama pull gemma3:1b &&
+       pkill ollama"
+
+    restart: "no"
+
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    depends_on:
+      ollama-init:
+        condition: service_completed_successfully
+
+volumes:
+  ollama:
