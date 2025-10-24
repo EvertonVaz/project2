@@ -15,7 +15,7 @@ def build_few_shot_prompt(input_text: str) -> str:
     prompt = "Aqui estão alguns exemplos de perguntas e respostas, responda sem as perguntas:\n\n"
     prompt += "\n\n".join(examples)
     prompt += f"\n\n{input_text}\n"
-    prompt += "Caso o termo não seja relaciona à informática, responda com 'Desculpe, não sei a resposta para isso.'"
+    #prompt += "Caso o termo não seja relaciona à informática, responda com 'Desculpe, não sei a resposta para isso.'"
     return prompt
 
 def generate_llm_response(input_text: str, temp: float = 1.0) -> None:
